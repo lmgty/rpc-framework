@@ -58,8 +58,7 @@ public class NettyServer implements InitializingBean {
                             // todo
                             ch.pipeline().addLast(new NettyKryoEncoder(kryoSerializer, RpcRequest.class));
                             ch.pipeline().addLast(new NettyKryoDecoder(kryoSerializer, RpcResponse.class));
-                            // encoder
-                            // 处理信息handler
+                            ch.pipeline().addLast(new NettyServerHandler());
                         }
                     });
             ChannelFuture channelFuture = b.bind(host, PORT).sync();

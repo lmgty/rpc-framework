@@ -22,7 +22,7 @@ public class RpcResponse<T> implements Serializable {
     private String message;
     private T data;
 
-    private static <T> RpcResponse<T> success(T data, String requestId){
+    public static <T> RpcResponse<T> success(T data, String requestId){
         RpcResponse<T> response = new RpcResponse<>();
         response.setCode(RpcResponseCode.SUCCESS.getCode());
         response.setMessage(RpcResponseCode.SUCCESS.getMessage());
@@ -33,7 +33,7 @@ public class RpcResponse<T> implements Serializable {
         return response;
     }
 
-    private static <T> RpcResponse<T> fail(RpcResponseCode rpcResponseCode){
+    public static <T> RpcResponse<T> fail(RpcResponseCode rpcResponseCode){
          RpcResponse<T> response = new RpcResponse<>();
         response.setCode(rpcResponseCode.getCode());
         response.setMessage(rpcResponseCode.getMessage());

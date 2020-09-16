@@ -13,6 +13,7 @@ public class NettyServerMain {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(NettyServerMain.class);
         NettyServer nettyServer = applicationContext.getBean(NettyServer.class);
 
+
         nettyServer.start();
     }
 }

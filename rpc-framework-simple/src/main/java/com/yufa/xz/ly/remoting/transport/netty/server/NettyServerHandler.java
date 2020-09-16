@@ -47,7 +47,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
                 log.error("not writable now, message dropped");
             }
         }finally {
-            // 不手动释放，有可能会导致内存泄漏
+            // 如果不手动释放，有可能会导致内存泄漏
             ReferenceCountUtil.release(msg);
         }
 

@@ -3,7 +3,7 @@ package com.yufa.xz.ly.serialize.kryo;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.sun.xml.internal.ws.encoding.soap.SerializationException;
+import com.yufa.xz.ly.exeception.SerializeException;
 import com.yufa.xz.ly.remoting.dto.RpcRequest;
 import com.yufa.xz.ly.remoting.dto.RpcResponse;
 import com.yufa.xz.ly.serialize.Serializer;
@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 /**
  * @author LiuYe
@@ -35,8 +34,8 @@ public class KryoSerializer implements Serializer {
             kryo.writeObject(output, object);
             kryoThreadLocal.remove();
             return output.toBytes();
-        } catch (IOException e) {
-            throw new SerializationException("Serialization failed");
+        } catch (Exception e) {
+            throw new SerializeException("Serialization failed");
         }
     }
 
@@ -48,8 +47,8 @@ public class KryoSerializer implements Serializer {
             Object o = kryo.readObject(input, clazz);
             kryoThreadLocal.remove();
             return clazz.cast(o);
-        } catch (IOException e) {
-            throw new SerializationException("Deserialization failed");
+        } catch (Exception e) {
+            throw new SerializeException("Deserialization failed");
         }
     }
 }

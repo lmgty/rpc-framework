@@ -47,12 +47,13 @@ public class ServiceProviderImpl implements ServiceProvider{
 
     @Override
     public void publishService(Object service) {
-
+        this.publishService(service,
+                RpcServiceProperties.builder().group("").version("").build());
     }
 
     @Override
     public void publishService(Object service, RpcServiceProperties rpcServiceProperties) {
-
+        Class<?> serviceInterface = service.getClass().getInterfaces()[0];
+        this.addService(service,serviceInterface,rpcServiceProperties);
     }
-
 }

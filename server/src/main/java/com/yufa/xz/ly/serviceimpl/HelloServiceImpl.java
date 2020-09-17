@@ -3,12 +3,14 @@ package com.yufa.xz.ly.serviceimpl;
 import com.yufa.xz.ly.Hello;
 import com.yufa.xz.ly.HelloService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * @author LiuYe
  * @data 2020/9/17
  */
 @Slf4j
+@Component
 public class HelloServiceImpl implements HelloService {
 
     static {

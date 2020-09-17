@@ -1,5 +1,9 @@
 package com.yufa.xz.ly.remoting.transport.netty.server;
 
+import com.yufa.xz.ly.entity.RpcServiceProperties;
+import com.yufa.xz.ly.factory.SingletonFactory;
+import com.yufa.xz.ly.provider.ServiceProvider;
+import com.yufa.xz.ly.provider.ServiceProviderImpl;
 import com.yufa.xz.ly.remoting.dto.RpcRequest;
 import com.yufa.xz.ly.remoting.dto.RpcResponse;
 import com.yufa.xz.ly.remoting.transport.netty.codec.kryo.NettyKryoDecoder;
@@ -32,9 +36,13 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class NettyServer implements InitializingBean {
     private final KryoSerializer kryoSerializer = new KryoSerializer();
-
     public static final int PORT = 9998;
 
+    private final ServiceProvider serviceProvider = SingletonFactory.getInstance(ServiceProviderImpl.class);
+
+    public void registerService(Object service, RpcServiceProperties rpcServiceProperties) {
+        serviceProvider.publishService(service, rpcServiceProperties);
+    }
 
     @SneakyThrows
     public void start() {
@@ -53,7 +61,7 @@ public class NettyServer implements InitializingBean {
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel ch){
+                        protected void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS));
                             // todo
                             ch.pipeline().addLast(new NettyKryoEncoder(kryoSerializer, RpcRequest.class));

@@ -29,13 +29,15 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
         this.unprocessedRequests = SingletonFactory.getInstance(UnprocessedRequests.class);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
             log.info("client receive msg : [{}]", msg);
             if (msg instanceof RpcResponse) {
                 RpcResponse<Object> rpcResponse = (RpcResponse<Object>) msg;
-                unprocessedRequests.complete(rpcResponse);
+//                unprocessedRequests.complete(rpcResponse);
+                System.out.println(rpcResponse);
             }
         } finally {
             ReferenceCountUtil.release(msg);

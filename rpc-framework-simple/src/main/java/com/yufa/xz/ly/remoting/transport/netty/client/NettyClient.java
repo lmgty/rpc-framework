@@ -55,23 +55,24 @@ public class NettyClient {
     @SneakyThrows
     public Channel doConnect(InetSocketAddress inetSocketAddress) {
         CompletableFuture<Channel> completableFuture = new CompletableFuture<>();
-        bootstrap.connect(inetSocketAddress).addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture future) throws Exception {
-                if (future.isSuccess()) {
-                    log.info("The Client has connected [{}] successful!", inetSocketAddress.toString());
-                    //  告诉completableFuture任务已经完成，需要返回的结果
-                    completableFuture.complete(future.channel());
-                } else {
-                    throw new IllegalStateException();
-                }
-            }
-        });
-        // 获取任务结果，如果没有完成会一直阻塞等待
-        return completableFuture.get();
-    }
+//        bootstrap.connect(inetSocketAddress).addListener((ChannelFutureListener) future -> {
+//            if (future.isSuccess()) {
+//                log.info("The Client has connected [{}] successful!", inetSocketAddress.toString());
+//                //  告诉completableFuture任务已经完成，需要返回的结果
+//                completableFuture.complete(future.channel());
+//            } else {
+//                throw new IllegalStateException();
+//            }
+//        });
+//        // 获取任务结果，如果没有完成会一直阻塞等待
+//        return completableFuture.get();
 
-    public void close() {
-        eventLoopGroup.shutdownGracefully();
+        ChannelFuture channelFuture = bootstrap.connect(inetSocketAddress).sync();
+        return channelFuture.channel();
+
+        }
+
+        public void close () {
+            eventLoopGroup.shutdownGracefully();
+        }
     }
-}

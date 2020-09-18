@@ -54,6 +54,8 @@ public class ServiceProviderImpl implements ServiceProvider{
     @Override
     public void publishService(Object service, RpcServiceProperties rpcServiceProperties) {
         Class<?> serviceInterface = service.getClass().getInterfaces()[0];
+        String serviceName = serviceInterface.getCanonicalName();
+        rpcServiceProperties.setServiceName(serviceName);
         this.addService(service,serviceInterface,rpcServiceProperties);
     }
 }

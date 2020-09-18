@@ -64,12 +64,12 @@ public class NettyServer implements InitializingBean {
                         protected void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS));
                             // todo
-                            ch.pipeline().addLast(new NettyKryoEncoder(kryoSerializer, RpcRequest.class));
-                            ch.pipeline().addLast(new NettyKryoDecoder(kryoSerializer, RpcResponse.class));
+                            ch.pipeline().addLast(new NettyKryoEncoder(kryoSerializer, RpcResponse.class));
+                            ch.pipeline().addLast(new NettyKryoDecoder(kryoSerializer, RpcRequest.class));
                             ch.pipeline().addLast(new NettyServerHandler());
                         }
                     });
-            ChannelFuture channelFuture = b.bind(host, PORT).sync();
+            ChannelFuture channelFuture = b.bind("127.0.0.1", PORT).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("occur exception when start server:", e);

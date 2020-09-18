@@ -1,3 +1,4 @@
+import com.yufa.xz.ly.HelloService;
 import com.yufa.xz.ly.entity.RpcServiceProperties;
 import com.yufa.xz.ly.remoting.transport.netty.server.NettyServer;
 import com.yufa.xz.ly.serviceimpl.HelloServiceImpl;
@@ -15,7 +16,7 @@ public class NettyServerMain {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(NettyServerMain.class);
         NettyServer nettyServer = applicationContext.getBean(NettyServer.class);
-        HelloServiceImpl helloService2 = new HelloServiceImpl();
+        HelloService helloService2 = new HelloServiceImpl();
         RpcServiceProperties rpcServiceProperties = RpcServiceProperties.builder()
                 .group("test2").version("version2").build();
         nettyServer.registerService(helloService2, rpcServiceProperties);

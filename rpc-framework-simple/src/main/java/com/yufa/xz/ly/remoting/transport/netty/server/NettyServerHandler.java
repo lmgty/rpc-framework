@@ -31,6 +31,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         try {
 
             log.info("server receive msg: [{}]", msg);
+            log.info("sleep some second: [{}]", 5);
+            Thread.sleep(5000);
             RpcRequest rpcRequest = (RpcRequest) msg;
             if (rpcRequest.getRpcMessageType() == RpcMessageType.HEART_BEAT) {
                 log.info("receive heat beat msg form client");

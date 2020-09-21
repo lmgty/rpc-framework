@@ -36,8 +36,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
             log.info("client receive msg : [{}]", msg);
             if (msg instanceof RpcResponse) {
                 RpcResponse<Object> rpcResponse = (RpcResponse<Object>) msg;
-//                unprocessedRequests.complete(rpcResponse);
-                System.out.println(rpcResponse);
+                unprocessedRequests.complete(rpcResponse);
             }
         } finally {
             ReferenceCountUtil.release(msg);

@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author LiuYe
@@ -43,7 +44,8 @@ public class RpcClientProxy implements InvocationHandler {
         return (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class<?>[]{clazz}, this);
     }
 
-
+    @SneakyThrows
+    @SuppressWarnings("unchecked")
     @Override
     public Object invoke(Object o, Method method, Object[] args) throws Throwable {
         log.info("invoked method: [{}]", method.getName());
@@ -56,10 +58,9 @@ public class RpcClientProxy implements InvocationHandler {
                 .group(rpcServiceProperties.getGroup())
                 .version(rpcServiceProperties.getVersion())
                 .build();
-        RpcResponse<Object> rpcResponse = null;
-        Object response = clientTransport.sendRpcRequest(rpcRequest);
+        CompletableFuture<RpcResponse<Object>> completableFuture = (CompletableFuture<RpcResponse<Object>>) clientTransport.sendRpcRequest(rpcRequest);
+        RpcResponse<Object> rpcResponse= completableFuture.get();
 
-
-        return null;
+        return rpcResponse.getData();
     }
 }

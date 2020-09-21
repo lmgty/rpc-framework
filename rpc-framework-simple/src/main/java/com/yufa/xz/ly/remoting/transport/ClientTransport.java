@@ -14,5 +14,4 @@ public interface ClientTransport {
      * @return 服务端返回的数据
      */
     Object sendRpcRequest(RpcRequest rpcRequest);
-
 }

@@ -69,7 +69,7 @@ public class NettyServer implements InitializingBean {
                             ch.pipeline().addLast(new NettyServerHandler());
                         }
                     });
-            ChannelFuture channelFuture = b.bind("127.0.0.1", PORT).sync();
+            ChannelFuture channelFuture = b.bind(host, PORT).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("occur exception when start server:", e);
